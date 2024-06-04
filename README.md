@@ -61,4 +61,3 @@ Build project without producing a binary to check for errors
 ### Variables and Mutability
 
 > By default, variables are immutable
-# rust-practice
