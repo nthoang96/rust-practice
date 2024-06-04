@@ -5,11 +5,11 @@ Version: 1.67.1
 
 ---
 
-1. Getting started
+## Getting started
 
 ---
 
-## Installation
+### Installation
 
 `rustup`
 
@@ -18,25 +18,25 @@ Version: 1.67.1
 Updating
 `rustup update`
 
-## Hello-world
+### Hello-world
 
 > Using a `!` means that you're calling a macro instead of a normal function and
 > that macros don't always follow the same rules as funcitons.
 
-### Compiling and Running are separate steps
+#### Compiling and Running are separate steps
 
 > Before running a Rust program, you must compile it using the Rust compiler by entering the `rustc` command.
 > After compiling successfully, Rust outputs a binary executable.
 
-## Hello, Cargo!
+### Hello, Cargo!
 
 Cargo is Rust's build system and package manager.
 
-### Create a Project with Cargo
+#### Create a Project with Cargo
 
 `cargo new hello_cargo`
 
-### Building and Running a Cargo project
+#### Building and Running a Cargo project
 
 Build a project
 
@@ -52,7 +52,7 @@ Build project without producing a binary to check for errors
 
 > Instead of saving the result of the build in the same directory as our code, > Cargo stores it in the `target/debug` directory.
 
-### Building for Release
+#### Building for Release
 
 `cargo build --release`
 
@@ -60,11 +60,11 @@ Build project without producing a binary to check for errors
 
 ---
 
-2. Common Programming Concepts
+## Common Programming Concepts
 
 ---
 
-## Variables and Mutability
+### Variables and Mutability
 
 > By default, variables are immutable
 
@@ -74,7 +74,7 @@ Although variables are immutable by default, you can make them mutable by adding
 let mut x = 5;
 ```
 
-### Constants
+#### Constants
 
 Like immutable variables, constants are values that are bound to a name and are not allowed to change, but there are a few differences between constants and variables.
 
@@ -90,7 +90,7 @@ const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
 
 > Rust’s naming convention for constants is to use all uppercase with underscores between words.
 
-### Shadowing
+#### Shadowing
 
 In Rust, you can declare a new variable with the same name as a previous variable. Rustaceans say that the first variable is *shadowed* by the second, which means that the second variable is what the compiler will see when you use the name of the variable.
 
