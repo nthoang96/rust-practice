@@ -7,8 +7,6 @@ Version: 1.67.1
 
 ## Getting started
 
----
-
 ### Installation
 
 `rustup`
@@ -58,11 +56,7 @@ Build project without producing a binary to check for errors
 
 > This command will create an executable in target/release instead of target/debug.
 
----
-
 ## Common Programming Concepts
-
----
 
 ### Variables and Mutability
 
