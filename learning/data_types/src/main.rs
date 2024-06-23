@@ -11,5 +11,9 @@ fn main() {
     println!("{byte}");
 
     let num1: i8 = 127;
-    let _num2: i8 = num1 + 1;
+    // let _num2: i8 = num1 + 1;
+
+    let tup = (500, 6.4, 1);
+    let (x, y, z) = tup;
+    println!("The value of y is: {y}");
 }
