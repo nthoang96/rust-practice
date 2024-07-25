@@ -391,3 +391,133 @@ This code compiles successfully. If you run this code using cargo run and enter 
 thread 'main' panicked at 'index out of bounds: the len is 5 but the index is 10', src/main.rs:19:19
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 ```
+
+### Comments
+
+```rust
+// hello world
+
+// 1
+// 2
+// 3
+
+/* So so so */
+
+fn main() {
+  let lucky_number = 7; // I'm feeling lucky today
+}
+
+// common use
+fn main() {
+  // I'm feeling lucky today
+  let lucky_number = 7;
+}
+```
+
+### Control Flow
+
+#### `if` Expressions
+#### Handling Multiple Conditions with `else if`
+#### Using `if` in a `let` Statement
+#### Repetition with Loops
+
+`loop`, `while`, and `for`
+
+##### Repeating Code with `loop`
+
+```rust
+fn main() {
+    let mut counter = 0;
+
+    let result = loop {
+        counter += 1;
+
+        if counter == 10 {
+            break counter * 2;
+        }
+    };
+
+    println!("The result is {result}");
+}
+```
+
+> Code after a break or return is never executed, so the Rust compiler treats a break expression and a return expression as having the value unit, or ().
+
+##### Loop Labels to Disambiguate Between Multiple Loops
+
+> You can optionally specify a loop label on a loop that you can then use with `break` or `continue`
+to specify that those keywords apply to the labeled loop instead of the innermost loop.
+
+```rust
+fn main() {
+    let mut count = 0;
+    'counting_up: loop {
+        println!("count = {count}");
+        let mut remaining = 10;
+
+        loop {
+            println!("remaining = {remaining}");
+            if remaining == 9 {
+                break;
+            }
+            if count == 2 {
+                break 'counting_up;
+            }
+            remaining -= 1;
+        }
+
+        count += 1;
+    }
+    println!("End count = {count}");
+}
+```
+
+##### Conditional Loops with `while`
+
+```rust
+fn main() {
+    let mut number = 3;
+
+    while number != 0 {
+        println!("{number}!");
+
+        number -= 1;
+    }
+
+    println!("LIFTOFF!!!");
+}
+```
+
+##### Loop Through a Collection with `for`
+
+```rust
+fn main() {
+    let a = [10, 20, 30, 40, 50];
+    let mut index = 0;
+
+    while index < 5 {
+        println!("the value is: {}", a[index]);
+
+        index += 1;
+    }
+}
+```
+
+```rust
+fn main() {
+    let a = [10, 20, 30, 40, 50];
+
+    for element in a {
+        println!("the value is: {element}");
+    }
+}
+```
+
+```rust
+fn main() {
+    for number in (1..4).rev() {
+        println!("{number}!");
+    }
+    println!("LIFTOFF!!!");
+}
+```
