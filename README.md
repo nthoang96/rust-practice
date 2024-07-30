@@ -521,3 +521,28 @@ fn main() {
     println!("LIFTOFF!!!");
 }
 ```
+
+## Understanding Ownership
+
+> It enables Rust to make memory safety guarantees without needing a garbage collector,
+so it's important to understand how ownership works.
+
+### What is Ownership?
+
+> Ownership is a discipline for ensuring the safety of Rust programs.
+
+#### Safety is the Absence of Undefined Behavior
+
+> A foundational goal of Rust is to ensure that your programs never have undefined behavior.
+
+#### Ownership as a Discipline for Memory Safety
+
+#### Variables Live in the Stack
+
+#### Boxes Live in the Heap
+
+To transfer access to data without copying it, Rust uses pointers. A pointer is a value
+that describes a location in memory. The value that a pointer points-to is called its pointee.
+One common way to make a pointer is to allocate memory in the heap. The heap is a separate region
+of memory where data can live indefinitely. Heap data is not tied to a specific stack frame.
+Rust provides a construct called Box for putting data on the heap.
