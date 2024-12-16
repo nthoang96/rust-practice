@@ -25,7 +25,7 @@ Version: 1.67.1
 
 `rustup`
 
-> a command line tool for managin Rust version and associated tools.
+> a command line tool for managing Rust version and associated tools.
 
 Updating
 `rustup update`
@@ -62,7 +62,8 @@ Build project without producing a binary to check for errors
 
 `cargo check`
 
-> Instead of saving the result of the build in the same directory as our code, > Cargo stores it in the `target/debug` directory.
+> Instead of saving the result of the build in the same directory as our code
+> Cargo stores it in the `target/debug` directory.
 
 #### Building for Release
 
@@ -417,8 +418,11 @@ fn main() {
 ### Control Flow
 
 #### `if` Expressions
+
 #### Handling Multiple Conditions with `else if`
+
 #### Using `if` in a `let` Statement
+
 #### Repetition with Loops
 
 `loop`, `while`, and `for`
@@ -446,7 +450,7 @@ fn main() {
 ##### Loop Labels to Disambiguate Between Multiple Loops
 
 > You can optionally specify a loop label on a loop that you can then use with `break` or `continue`
-to specify that those keywords apply to the labeled loop instead of the innermost loop.
+> to specify that those keywords apply to the labeled loop instead of the innermost loop.
 
 ```rust
 fn main() {
@@ -525,7 +529,7 @@ fn main() {
 ## Understanding Ownership
 
 > It enables Rust to make memory safety guarantees without needing a garbage collector,
-so it's important to understand how ownership works.
+> so it's important to understand how ownership works.
 
 ### What is Ownership?
 
@@ -546,3 +550,114 @@ that describes a location in memory. The value that a pointer points-to is calle
 One common way to make a pointer is to allocate memory in the heap. The heap is a separate region
 of memory where data can live indefinitely. Heap data is not tied to a specific stack frame.
 Rust provides a construct called Box for putting data on the heap.
+
+```rust
+let a = Box::new([0; 1_000_000]);
+let b = a;
+```
+
+#### Rust Does Not Permit Manual Memory Management
+
+> Rust does not allow programs to manually deallocate memory.
+> That policy avoids the kinds of undefined behaviors shown above.
+
+#### A Box's Owner Manages Deallocation
+
+> Box deallocation principle (almost correct): If a variable is bound to a box,
+> when Rust deallocates the variable's frame, then Rust deallocates the box's heap memory.
+
+> Box deallocation principle (fully correct): If a variable owns a box, when Rust deallocates
+> the variable's frame, then Rust deallocates the box's heap memory.
+
+#### Collections Use Boxes
+
+> Boxes are used by Rust data structures like `Vec`, `String`, and `HashMap` to hold a variable number of elements.
+
+#### Variables Cannot Be Used After Being Moved
+
+> Moved heap data principle: if a variable x moves ownership of heap data to another variable y,
+> then x cannot be used after the move.
+
+#### Cloning Avoids Moves
+
+One way to avoid moving data is to clone it using the .clone() method.
+
+### References and Borrowing
+
+Ownership, boxes, and moves provide a foundation for safely programming with the heap.
+However, move-only APIs can be inconvenient to use.
+
+Example:
+
+```rust
+fn main() {
+    let m1 = String::from("Hello");
+    let m2 = String::from("world");
+    greet(m1, m2);
+    let s = format!("{} {}", m1, m2); // Error: m1 and m2 are moved
+}
+
+fn greet(g1: String, g2: String) {
+    println!("{} {}!", g1, g2);
+}
+```
+
+Programs often need to use a string more than once. An alternative `greet` could return
+ownership of the strings, like this:
+
+```rust
+fn main() {
+    let m1 = String::from("Hello");
+    let m2 = String::from("world");
+    let (m1_again, m2_again) = greet(m1, m2);
+    let s = format!("{} {}", m1_again, m2_again);
+}
+
+fn greet(g1: String, g2: String) -> (String, String) {
+    println!("{} {}!", g1, g2);
+    (g1, g2)
+}
+```
+
+However, this style of program is quite verbose. Rust provides a concise style of reading and
+writing without moves through references.
+
+#### References Are Non-Owning Pointers
+
+A reference is a kind of pointer.
+
+```rust
+fn main() {
+    let m1 = String::from("Hello");
+    let m2 = String::from("world");
+    greet(&m1, &m2); // note the ampersands
+    let s = format!("{} {}", m1, m2);
+}
+
+fn greet(g1: &String, g2: &String) { // note the ampersands
+    println!("{} {}!", g1, g2);
+}
+```
+
+#### Dereferencing a Pointer Accesses Its Data
+
+```rust
+let mut x: Box<i32> = Box::new(1);
+let a: i32 = *x;         // *x reads the heap value, so a = 1
+*x += 1;                 // *x on the left-side modifies the heap value,
+                         //     so x points to the value 2
+
+let r1: &Box<i32> = &x;  // r1 points to x on the stack
+let b: i32 = **r1;       // two dereferences get us to the heap value
+
+let r2: &i32 = &*x;      // r2 points to the heap value directly
+let c: i32 = *r2;    // so only one dereference is needed to read it
+```
+
+#### Rust Avoids Simultaneous Aliasing and Mutation
+
+> Pointers are a powerful and dangerous feature because they enable `aliasing`.
+
+> Aliasing is accessing the same data through different variables.
+
+> `Pointer Safety Principle`: data should never be aliased and mutated at the same time.
